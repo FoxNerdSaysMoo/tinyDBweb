@@ -40,6 +40,9 @@ def handle_req():
         db.update(json["params"]["value"], Query().fragment(json["params"]["keys"]))
         return {"success": True, "result": None}
 
+    elif json["method"] == "all":
+        return {"success": True, "result": db.all()}
+
     return {"success": False}
 
 
