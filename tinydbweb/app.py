@@ -23,18 +23,22 @@ def handle_req():
     if given_pw != password:
         return {}
 
-    if json["method"] == "get":
+    json["params"] = eval(enc.decrypt(json["params"].encode("utf-8")))
+
+    if json["method"] == "search":
         return {"result": db.search(Query().fragment(json["params"])), "success": True}
     elif json["method"] == "insert":
         db.insert(json["params"])
-        return {"success": True}
+        return {"success": True, "result": None}
+
+    return {"success": False}
 
 
 @app.route("/")
 def main():
     res = handle_req()
     if res.get("success"):
-        return {"result": enc.encrypt(str(res).encode("utf-8"))}
+        return {"result": enc.encrypt(str(res["result"]).encode("utf-8")), "success": True}
     else:
         return res
 
