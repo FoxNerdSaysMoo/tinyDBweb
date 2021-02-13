@@ -36,6 +36,10 @@ def handle_req():
         db.remove(Query().fragment(json["params"]))
         return {"success": True, "result": None}
 
+    elif json["method"] == "update":
+        db.update(json["params"]["value"], Query().fragment(json["params"]["keys"]))
+        return {"success": True, "result": None}
+
     return {"success": False}
 
 
