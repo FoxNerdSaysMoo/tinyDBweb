@@ -27,8 +27,13 @@ def handle_req():
 
     if json["method"] == "search":
         return {"result": db.search(Query().fragment(json["params"])), "success": True}
+
     elif json["method"] == "insert":
         db.insert(json["params"])
+        return {"success": True, "result": None}
+
+    elif json["method"] == "remove":
+        db.remove(Query().fragment(json["params"]))
         return {"success": True, "result": None}
 
     return {"success": False}
